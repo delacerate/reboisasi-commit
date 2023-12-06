@@ -1,0 +1,50 @@
+name: Auto commit
+
+on:
+  push:
+    branches:
+      - master
+      
+  schedule:
+    - cron: "0 2 * * 1-5" # See https://crontab.guru/#0_2_*_*_1-5
+
+jobs:
+  auto_commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: DEBUG 
+        run: echo "::debug::Ref = ${{github.ref}}"
+      - uses: actions/checkout@v3      
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Fetch API Data
+        run: |
+          API_URL="https://api.api-ninjas.com/v1/quotes?category=inspirational" #see from this api https://api-ninjas.com/api/quotes
+          API_KEY="${{ secrets.YOUR_API_KEY }}"
+          API_RESPONSE=$(curl -sL -H "x-api-key: $API_KEY" "$API_URL")
+          echo "$API_RESPONSE" > api_data.json
+
+      - name: Modify last update
+        run: |
+          d=$(date '+%Y-%m-%dT%H:%M:%SZ')
+          echo "$d" > LAST_UPDATED
+          
+      - name: Commit changes
+        run: |
+          git config --local user.email "dxlacerate@gmail.com"
+          git config --local user.name "darman"
+          git add -A
+          
+          arr=("chore(bot): 😂 auto commit" "chore(bot): 😱 auto commit" "chore(bot): 👿 auto commit" "chore(bot): 💩 auto commit" "chore(bot): 🙏 auto commit" "chore(bot): 🙈 auto commit" "chore(bot): 🐐 auto commit" "chore(bot): 🤖 auto commit" "chore(bot): 🟩 auto commit" "chore(bot): 👻 auto commit")
+          rand=$((RANDOM % ${#arr[@]}))
+          
+          git commit -m "${arr[$rand]}"
+          
+      - name: GitHub Push
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          directory: "."
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
