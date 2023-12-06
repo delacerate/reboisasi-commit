@@ -18,7 +18,7 @@ REPO_PATH="$HOME/code/reboisasi-commit"
 OUTPUT_FILE="$REPO_PATH/update.json"
 cd "$REPO_PATH"
 
-git pull origin master
+git pull origin main
 
 #fetch data dari api menggunakan curl dengan header yang diperlukan ganti $API_KEY di .env
 curl -X GET -H "x-api-key: $API_KEY" "$API_URL" >"$OUTPUT_FILE"
