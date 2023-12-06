@@ -1,7 +1,7 @@
 # reboisasi-commit
 🌿 Boosting your GitHub stats with the help of GitHub Actions, Go Green!
 This repository is available in two ways to greenify your GitHub stats. The first one uses a shell script, and the second one utilizes GitHub Actions.
-This project is inspired by work of [@mazipan] [Repository Name](https://github.com/mazipan/auto-commit).
+This project is inspired by work of [@mazipan] [auto-commit](https://github.com/mazipan/auto-commit).
 
 
 ## Running the script and setting it with Cronie
