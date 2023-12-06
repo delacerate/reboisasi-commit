@@ -18,11 +18,14 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
-
+      
+      - name: Pull changes from main
+        run: git pull origin main
+        
       - name: Fetch API Data
         run: |
           API_URL="https://api.api-ninjas.com/v1/quotes?category=inspirational" #see from this api https://api-ninjas.com/api/quotes
-          API_KEY="${{ secrets.YOUR_API_KEY }}"
+          API_KEY="${{ secrets.MY_API_KEY }}"
           API_RESPONSE=$(curl -sL -H "x-api-key: $API_KEY" "$API_URL")
           echo "$API_RESPONSE" > api_data.json
 
